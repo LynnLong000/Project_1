@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en" ng-app>
+  <head>
+    <title>Chat Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
+    <style>
+  .background-red{
+    background:red;
+  }
+  .background-yellow{
+    background:FFD133;
+  }
+  .background-blue{
+    background:blue;
+  }
+  .text-center{
+    text-align:center;
+    display:block;
+  }
+  .container {
+    padding-top: 50px;
+    padding-right: 30px;
+    padding-bottom: 50px;
+    padding-left: 80px;
+  }
+  .rounded{
+    border-radius: 100px;
+  }
+  #smaller{
+     padding-left: 100px;
+     padding-right: 380px;
+  }
+  .text-white{
+    color:rgb(255,255,255);
+  }
+
+ .text-red{
+    color:red;
+  }
+  
+   .text-blue{
+    color:blue;
+  }
+  
+  #text-yellow{
+    color:yellow;
+  }
+  
+  .background-black{
+    background:black;
+  }
+  
+
+</style>
+    <script>
+      function ChatController($scope) {
+        var socket = io.connect();
+
+        $scope.messages = [];
+        $scope.roster = [];
+        $scope.name = '';
+        $scope.text = '';
+
+        socket.on('connect', function () {
+          $scope.setName();
+        });
+
+        socket.on('message', function (msg) {
+          $scope.messages.push(msg);
+          $scope.$apply();
+        });
+
+        socket.on('roster', function (names) {
+          $scope.roster = names;
+          $scope.$apply();
+        });
+
+        $scope.send = function send() {
+          console.log('Sending message:', $scope.text);
+          socket.emit('message', $scope.text);
+          $scope.text = '';
+        };
+
+        $scope.setName = function setName() {
+          socket.emit('identify', $scope.name);
+        };
+      }
+    </script>
+  </head>
+ <div class="container background-black">
+  <div class = "background-red rounded">
+    
+      <h1 class="text-center">Boston Sports</h1>
+         
+    <center><img src= "http://shsknight.edublogs.org/files/2013/03/boston_sports_2sm765-nepgyr.jpg" class="rounded"></center>
+  </div>  
+  <div class="text-center container rounded background-yellow text-white">
+    <h2> Sports</h2>
+    <div id="smaller">
+      <p1 > Sports are one of the greatest things to happen to the the world. In a weird way it is one thing that brings people together. As a youth you learn the fundamentals to the game and sportsmanship. as you get older it becomes like a bonding tool with people who you never met. Great way to start a conversation.
+      </p1>
+    </div>
+    <div id="smaller">
+      <p2>Being from Boston I'm going to speak on Boston sports and how well they have been doing. they have been doing great within the past couple of decades, killing it with  rings and what not. Although Boston fans are not known for being nice. We do take a strong pride in our City and loyalty to our teams. Below are some accomplishments they have achieved </p2>
+    </div>
+    <div>
+      <ol class="text-white">Boston Red Sox founded in 1901</ol>
+      <ol class="text-red">Boston Bruins founded in 1924</ol>
+      <ol class="text-blue">Boston Celtics founded in 1946</ol>
+      <ol class="text-white">New England Patriots founded in 1960</ol>
+      <ol class="text-red">New England Revolution founded in 1995</ol>
+      <ol class="text-blue">Boston Red Sox with 	8 World Series; 13 AL Pennants </ol>
+      <ol class="text-white">Boston Bruins with 6 Stanley Cups</ol>
+      <ol class="text-red">Boston Celtics with 17 NBA titles ( we LIT ) </ol>
+      <ol class="text-blue">New England Patriots with 	4 Super Bowls; 8 AFC Championships </ol>
+      <ol class="text-white">New England Revolution with 1 U.S. Open Cup; 1 Superliga</ol>      
+    </div>
+    <div>
+      <form action>
+        Input your favorite boston sport moment:<br>
+        <input type="text" name="Input your favorite boston sport moment" value="Boston Sports">
+        <br>
+        <br>
+  <input type="submit" value="Submit">
+</form> 
+    </div>
+    <div class="text-white" id="text-yellow"> 
+      <a href = "https://en.wikipedia.org/wiki/Sports_in_Boston" target="_blank">If you would like more information on Boston sports click here</a>
+    </div>
+    <div>
+      <a href = "https://en.wikipedia.org/wiki/Sport" target="_blank">If you would like more information on sports in general click here</a>
+    </div>
+  </div>
+</div> 
+</html>
